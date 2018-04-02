@@ -1,0 +1,12 @@
+# Dirs
+node_modules
+
+# Blobs
+# modules/custom/*.js
+**/.DS_Store
+**/*.sql
+
+# Files
+notes.txt
+package-lock.json
+config.js
