@@ -1,4 +1,4 @@
-# Node IRC bot
+# A Flexible Node IRC Bot With Drop-In Custom Module Support
 
 This project aims to be a flexible bot with some core built-in functionality, plus the ability to drop in Custom modules and have the bot manage them just as easily.
 
