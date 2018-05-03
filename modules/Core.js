@@ -1,8 +1,6 @@
 /**
  * Core.js
  *
- * @TODO: Load modules from ./Core/* dynamically, and aggregate a list of Core.commands.
- *
  * @desc Core module
  * @license Private
  * @version 0.1

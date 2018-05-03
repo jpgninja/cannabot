@@ -11,7 +11,6 @@ const config = require('./config.js');
 let init = () => {
   bot = new irc.Client(config.persona.server, config.persona.nick, config.persona);
   Commander.init( bot );
-  // @TODO config.json
 
   addEventListeners();
 }

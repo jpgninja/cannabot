@@ -134,17 +134,6 @@ Cannabis.sf_search = (message) => {
             Cannabis.state.search.matches.push(result);
           }
 
-          /*
-          else if (matchedStrain && breeder && !matchedBreeder) {
-            // console.log('matched strain (%s <> %s), but not breeder (%s <> %s)', strain, result_strain, breeder, result_breeder);
-            // console.log(result);
-          } else if (!matchedStrain && breeder && matchedBreeder) {
-            // console.log('matched breeder... %s <> %s ', breeder, result_breeder);
-            // console.log(result);
-          } else {
-            // console.log('Didnt match strain (%s <> %s), nor breeder (%s <> %s)', strain, result_strain, breeder, result_breeder);
-          }
-          */
         });
 
         if (Cannabis.state.search.matches.length) {
@@ -302,31 +291,33 @@ Cannabis.setstrain = (message) => {
  */
 Cannabis.list_strains = (message) => {
   let chan = message.args[0];
-  let replies = [];
   let nick;
+  let nick_msg;
+  let replies = [];
+  let total_verbs;
   let verb;
   let verbs = [
-  "smoking on",
-  "smoking on some",
-  "puffing on",
-  "puffing or vaping ",
-  "smokin'",
-  "blazing",
-  "toking",
-  "sparking",
-  "medicating with",
-  "medicated on",
+    "blazing",
+    "chiefing",
+    "medicating with",
+    "medicated on",
+    "puffing some",
+    "smoking",
+    "smoking on",
+    "smoking on some",
+    "sparking",
+    "toking"
   ];
-  let total_verbs = verbs.length;
+
+  total_verbs = verbs.length;
 
   for (nick in Cannabis.storage[ chan ]) {
     verb = verbs[Math.floor(Math.random() * total_verbs)];
-    replies.push(nick + " is "+verb+" '"+ Cannabis.storage[ chan ][ nick ] +"'");
+    nick_msg = nick + " is "+verb+" '"+ Cannabis.storage[ chan ][ nick ] +"'";
+    replies.push( nick_msg );
   }
 
   helpers.dripReply(Cannabis.client, chan, replies);
-
-  // Cannabis.client.say(chan, );
 }
 
 module.exports = Cannabis;
