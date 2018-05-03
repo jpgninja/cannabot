@@ -10,37 +10,55 @@
 let config = require('./config.js');
 let rp = require('request-promise');
 let helpers = require('../../Helpers.js');
+const Storage = require('../../Storage.js');
+let storage = Storage.db;
+
 var Cannabis = function() {};
 
 
-/**
- * Masters and Master Channels
- *
- * MUST BE LOWERCASE!
- *
- * @description Global environment variables
- *
- */
-Cannabis.state = {
-  search: {}
-};
-Cannabis.urls = {
-  base: "http://en.seedfinder.eu/api/json/",
-  search: "search.json",
-  strain: "strain.json",
-  params: {
-    api: "&ac={{API}}",
-    search: "?q={{TERM}}",
-    strain: "?br={{BREEDER}}&str={{STRAIN}}"
-  }
-};
+
+Cannabis.init = ( client ) => {
+  Cannabis.client = client;
+
+  Cannabis.storage = {};
+  Cannabis.state = {
+    search: {}
+  };
+  Cannabis.commands = {
+    '!sf': {
+      desc: '<strain> [: <breeder>] Search for strains with optional breeder',
+      handler: 'sf_search'
+    },
+    '!strains': {
+      desc: 'See what people are smoking',
+      handler: 'strain'
+    },
+    '!setstrain': {
+      desc: '<strain> Set what strain youre smoking on',
+      handler: 'strain'
+    }
+  };
+  Cannabis.urls = {
+    base: "http://en.seedfinder.eu/api/json/",
+    search: "search.json",
+    strain: "strain.json",
+    params: {
+      api: "&ac={{API}}",
+      search: "?q={{TERM}}",
+      strain: "?br={{BREEDER}}&str={{STRAIN}}"
+    }
+  };
+
+  return Cannabis.commands;
+
+}
 
 /**
  * SeedFinder.eu search
  *
  * @description API Details: http://en.seedfinder.eu/api/json/
  */
-Cannabis.sf_search = (client, message) => {
+Cannabis.sf_search = (message) => {
   let breeder;
   let chan = message.args[0];
   let matches = [];
@@ -133,9 +151,9 @@ Cannabis.sf_search = (client, message) => {
           search_response = "Found "+body.count+" result(s). Here's my best guess:";
           console.log('Cannabis.sf_search(): Got %d results and have %d matches', body.count, Cannabis.state.search.matches.length);
           console.log('Cannabis.sf_search(): Telling chan %s', chan);
-          client.say(chan, search_response);
+          Cannabis.client.say(chan, search_response);
 
-          Cannabis.sf_get_strain( client, chan );
+          Cannabis.sf_get_strain( chan );
           return true;
         }
         else {
@@ -149,12 +167,12 @@ Cannabis.sf_search = (client, message) => {
           response += "but couldn't match any to your search. fml, I give up.";
 
           console.log("Cannabis.sf_search(): Couldnt match anything. Responding to %s with response: '%s'", chan, response);
-          client.say( chan, response );
+          Cannabis.client.say( chan, response );
         }
       }
       else {
         // Send to IRC
-        client.say(chan, "Sorry, no results.");
+        Cannabis.client.say(chan, "Sorry, no results.");
         return false;
       }
     })
@@ -172,7 +190,7 @@ Cannabis.sf_search = (client, message) => {
  *
  * @description SeedFinder.eu strain detail finder
  */
-Cannabis.sf_get_strain = ( client, chan ) => {
+Cannabis.sf_get_strain = ( chan ) => {
   let url = "";
   let breeder;
   let strain;
@@ -234,11 +252,81 @@ Cannabis.sf_get_strain = ( client, chan ) => {
       ];
 
       // Send messages
-      return helpers.dripReply(client, chan, results);
+      return helpers.dripReply(Cannabis.client, chan, results);
     }).catch((err)=> {
       console.log('Cannabis.sf_get_strain(): ACK! Error fetching strain %s', match.name);
       throw err;
     });
+}
+
+
+
+/**
+ * setstrain()
+ *
+ * @description SeedFinder.eu strain detail finder
+ */
+Cannabis.setstrain = (message) => {
+  console.log('seting strain');
+  let chan = message.args[0];
+  let nick = message.nick.toLowerCase();
+
+  console.log(Cannabis.storage);
+  let strain = message.args[1].trim().split(' '); // remove the command
+  console.log(strain);
+  strain.shift();
+  console.log(strain);
+  strain = strain.join(' '); // remove the command
+  console.log(strain);
+
+  let chanExists = Cannabis.storage.hasOwnProperty( chan );
+  let nickExists = (chanExists) ? Cannabis.storage[chan].hasOwnProperty( chan ) : false ;
+
+  if (!chanExists) {
+    Cannabis.storage[chan] = {};
+  }
+  // if (!nickExists) {
+  //   Cannabis.storage[chan][nick] = {};
+  // }
+
+  Cannabis.storage[chan][nick] = strain;
+
+  Cannabis.client.say(chan, "Got it.");
+}
+
+
+/**
+ * list_strains()
+ *
+ * @description SeedFinder.eu strain detail finder
+ */
+Cannabis.list_strains = (message) => {
+  let chan = message.args[0];
+  let replies = [];
+  let nick;
+  let verb;
+  let verbs = [
+  "smoking on",
+  "smoking on some",
+  "puffing on",
+  "puffing or vaping ",
+  "smokin'",
+  "blazing",
+  "toking",
+  "sparking",
+  "medicating with",
+  "medicated on",
+  ];
+  let total_verbs = verbs.length;
+
+  for (nick in Cannabis.storage[ chan ]) {
+    verb = verbs[Math.floor(Math.random() * total_verbs)];
+    replies.push(nick + " is "+verb+" '"+ Cannabis.storage[ chan ][ nick ] +"'");
+  }
+
+  helpers.dripReply(Cannabis.client, chan, replies);
+
+  // Cannabis.client.say(chan, );
 }
 
 module.exports = Cannabis;

@@ -33,23 +33,22 @@ Obedience.isService = ( user ) => {
   return userExists;
 }
 
-// Obedience.isMaster = ( user ) => {
-  // return ( Obedience.masters.indexOf( user.toLowerCase() ) > -1);
-  // let isMaster = false;
-  // Object.keys( config.users ).forEach(( chan ) => {
-  //   for
-  // return (user in config.users)( config.users.indexOf( user.toLowerCase() ) > -1);
-// }
-
 Obedience.isMasterOfChan = ( user, chan ) => {
-  let chanExists = config.users.hasOwnProperty( chan );
-  let isMasterOfChan = (!chanExists) ? false : (config.users[chan].indexOf(user.toLowerCase()) > -1);
+  let chanExists = config.rules.hasOwnProperty( chan );
+  let isMasterOfChan = (chanExists) ? (config.rules[chan].admins.indexOf(user.toLowerCase()) > -1) : false ;
 
   return isMasterOfChan;
 }
 
 Obedience.isChan = ( chan ) => {
-  return config.users.hasOwnProperty( chan.toLowerCase() );
+  return config.rules.hasOwnProperty( chan.toLowerCase() );
+}
+
+Obedience.isPublicCommand = ( chan, command ) => {
+  let chanExists = config.rules.hasOwnProperty( chan );
+  let isPublicCommandInChan = (chanExists) ? (config.rules[chan].commands.indexOf(command.toLowerCase()) > -1) : (command === '!help') ? true : false ;
+
+  return isPublicCommandInChan;
 }
 
 module.exports = Obedience;

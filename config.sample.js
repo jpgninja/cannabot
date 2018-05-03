@@ -1,8 +1,8 @@
 let Config = {
   persona: {
-    nick: "cannabot",
-    userName: "spaghetti",
-    realName: "moms spaghetti",
+    nick: "bot",
+    userName: "username",
+    realName: "john d'oh!",
     port: 6667,
     localAddress: null,
     debug: false,
@@ -23,14 +23,28 @@ let Config = {
     messageSplit: 1200,
     encoding: ""
   },
+  preview_titles: true,
   flood_protection: {
     active: false,
     limit: 3,
     timeframe: 5
   },
-  users: {
-    '#tesla': ['elon', 'astroboy'],
-    '##boring': ['elon']
+  modules: [
+    'Commander',
+    'Custom',
+    'Helpers',
+    'Obedience',
+    'Storage'
+  ],
+  rules: {
+    "#tesla": {
+      admins: ["elon", "astroboy"],
+      commands: ['g', 'whois']
+    },
+    "##boring": {
+      admins: ["elon"],
+      commands: ['g', 'whois']
+    }
   },
   services: ['ChanServ', 'NickServ'],
   messages: {

@@ -9,7 +9,6 @@
  */
 
 var Custom = function() {};
-
 /**
  * Modules and Commands
  *
@@ -19,51 +18,78 @@ var Custom = function() {};
  *
  */
 Custom.modules = ['Cannabis'];
-Custom.commands = [
-  {
-    command: "sf",
-    class: Custom.Cannabis
-  },
-  {
-    command: "terp",
-    class: Custom.Cannabis
-  }
-];
+
 
 Custom.Cannabis = require('./custom/cannabis/Cannabis.js');
 
+Custom.init = ( client ) => {
+  Custom.client = client;
+
+  Custom.Cannabis.init( Custom.client );
+  Custom.commands = {
+    "!sf": {
+      desc: 'Custom.Cannabis',
+      module: 'Cannabis',
+      handler: 'sf'
+    },
+    "!setstrain": {
+      desc: 'Custom.Cannabis',
+      module: 'Cannabis',
+      handler: 'setstrain'
+    },
+    "!strains": {
+      desc: 'Custom.Cannabis',
+      module: 'Cannabis',
+      handler: 'strains'
+    },
+    // "!terp": {
+    //   desc: 'Custom.Cannabis',
+    //   module: 'Cannabis',
+    //   handler: 'terp'
+    // }
+  };
+
+  return Custom.commands;
+}
+
+
 
 // @TODO hard coded. ugly
-Custom.sf = ( client, message ) => {
-  console.log(message);
-  Custom.Cannabis.sf_search( client, message );
+Custom.sf = ( message ) => {
+  Custom.Cannabis.sf_search( message );
+}
+
+Custom.strains = ( message ) => {
+  Custom.Cannabis.list_strains( message );
+}
+
+Custom.setstrain = ( message ) => {
+  Custom.Cannabis.setstrain( message );
 }
 
 // @TODO hard coded. ugly
-Custom.terp = ( client, message ) => {
-  Custom.Cannabis.terp( client, message );
+Custom.terp = ( message ) => {
+  Custom.Cannabis.terp( message );
 }
 
-Custom.findCommand = ( client, command, message ) => {
-  console.log('finding custom command... ');
-  // for each in Custom.commands match command to Custom.commands[i].command
-  // If so, class is Custom.commands[i].class and emthod is Custom.commands[i].command
-  // lol will that even work?
-}
 
-Custom.addCommands = ( ) => {
-  // @TODO
+let addCommands = ( commands ) => {
+  // console.log("Adding to our current commands...", Custom.commands);
 
-  for (key in Custom.Cannabis) {
-    // skip loop if the property is from prototype
-    if (!results.hasOwnProperty(result)) continue;
-
-    // LOL no way this works when we finally try to run it
-    Custom.commands.push({
-      command: key,
-      class: Custom.Cannabis
-    });
+  for (var command in commands) {
+    if (commands.hasOwnProperty( command )) {
+      if (!Custom.commands.hasOwnProperty( command )) {
+        Custom.commands[ command ] = commands[ command ];
+      }
+      else {
+        console.log( Custom.commands, commands, command, Custom.commands[command])
+        console.log( "ACK! addCommands() didn't work" );
+        throw "ACK! addCommands() didn't work";
+      }
+    }
   }
+
+  // console.log("We now have commands...", Custom.commands);
 }
 
 
