@@ -19,6 +19,7 @@ let Config = {
     retryCount: 3,
     retryDelay: 10000,
     stripColors: false,
+    server: 'irc.dal.net',
     // channelPrefixes: "&#",
     messageSplit: 1200,
     encoding: ""
@@ -48,7 +49,8 @@ let Config = {
   },
   services: ['ChanServ', 'NickServ'],
   messages: {
-    kick: "kbai."
+    kick: "kbai.",
+    quit: "kbai."
   }
 }
 

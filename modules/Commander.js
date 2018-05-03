@@ -40,15 +40,6 @@ Commander.init = ( client ) => {
  *
  */
 Commander.run = (command, message) => {
-  let leave_message;
-  let parting_words;
-  let parting_words_array;
-  let query;
-  let query_array;
-  let user;
-  let chan;
-  let target;
-  let new_nick;
   let isCoreCommand = (typeof Core.commands[ command ] === 'object');
   let isCustomCommand = (typeof Custom.commands[ command ] === 'object');
 
@@ -58,7 +49,6 @@ Commander.run = (command, message) => {
   else if (isCustomCommand) {
     Custom[ Commander.commands[ command ].handler ]( message );
   }
-
 }
 
 
@@ -74,37 +64,6 @@ Commander.fn = ( fn, message) => {
   }
 }
 
-
-
-/**
- * unknown()
- *
- * @param client IRC instance
- * @param user Who to identify
- */
- Commander.unknown = (client, storage, command, message) => {
-  let isCustomCommand = false;
-
-  if (command === 'sf') {
-    isCustomCommand = true;
-  }
-  if (command === 'setstrain') {
-    isCustomCommand = true;
-  }
-  if (command === 'strains') {
-    isCustomCommand = true;
-  }
-
-  // console.log('Unknown command from (%s): %s', message.nick, command);
-  if (isCustomCommand) {
-    Custom[command]({
-      client: client,
-      storage: storage,
-      message: message
-    });
-  }
-}
-
 /**
  * identify()
  *
@@ -115,13 +74,12 @@ Commander.fn = ( fn, message) => {
   console.log("Attempting to identify nick '%s' as master...", user);
   console.log(message);
   // client.say( 'NickServ', 'ACC ' + user );
-  // client.addListener('message#', (from, to, text, message) => {
-  // });
 }
 
+/**
+ * Add Commands to our bot.
+ */
 let addCommands = ( commands ) => {
-  // console.log("Adding to our current commands...", Commander.commands);
-
   for (var command in commands) {
     if (commands.hasOwnProperty( command )) {
       if (!Commander.commands.hasOwnProperty( command )) {
@@ -134,8 +92,6 @@ let addCommands = ( commands ) => {
       }
     }
   }
-
-  // console.log("We now have commands...", Commander.commands);
 }
 
 

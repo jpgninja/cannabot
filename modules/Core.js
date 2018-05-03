@@ -8,36 +8,19 @@
 
 let rp = require("request-promise");
 let google = require("google");
+let helpers = require("./Helpers.js");
 var Core = function() {};
 
-/**
- * Modules and Commands
- *
- * MUST BE LOWERCASE!
- *
- * @description Global environment variables
- *
- */
-Core.commands2 = [
+
+Core.hidden_commands = [ // Unused.
   'reconnect',
-  'join',
-  'part',
   'quit',
-  'deop',
-  'op',
-  'devoice',
-  'voice',
-  'die',
-  'kick',
-  'kickban',
   'silence',
   'unsilence',
-  'whois',
   'nick',
-  'search',
+  'g',
   'getURLTitle',
 ];
-// help
 
 
 
@@ -104,7 +87,6 @@ Core.init = ( client ) => {
 /**
  * reconnect()
  *
- * @param client IRC instance
  * @param user Who to kick
  * @param message Object full message
  */
@@ -119,7 +101,6 @@ Core.reconnect = (message) => {
 /**
  * join()
  *
- * @param client IRC instance
  * @param chan Chan to join
  */
 Core.join = (message) => {
@@ -131,7 +112,6 @@ Core.join = (message) => {
 /**
  * part()
  *
- * @param client IRC instance
  * @param chan Chan to part
  */
 Core.part = (message) => {
@@ -142,7 +122,6 @@ Core.part = (message) => {
 /**
  * quit()
  *
- * @param client IRC instance
  * @param message Quit message
  */
 Core.quit = (message) => {
@@ -156,7 +135,6 @@ Core.quit = (message) => {
 /**
  * deop()
  *
- * @param client IRC instance
  * @param message Quit message
  */
 Core.deop = (message) => {
@@ -184,7 +162,6 @@ Core.deop = (message) => {
 /**
  * op()
  *
- * @param client IRC instance
  * @param message Quit message
  */
 Core.op = (message) => {
@@ -213,7 +190,6 @@ Core.op = (message) => {
 /**
  * devoice()
  *
- * @param client IRC instance
  * @param message Quit message
  */
 Core.devoice = (message) => {
@@ -241,7 +217,6 @@ Core.devoice = (message) => {
 /**
  * voice()
  *
- * @param client IRC instance
  * @param message Quit message
  */
 Core.voice = (message) => {
@@ -269,7 +244,6 @@ Core.voice = (message) => {
 /**
  * die()
  *
- * @param client IRC instance
  * @param message Quit message
  */
 Core.die = (message) => {
@@ -285,8 +259,6 @@ console.log( parting_words );
 /**
  * kick()
  *
- * @param client IRC instance
- * @param user Who to kick
  * @param message Object full message
  */
 Core.kick = (message) => {
@@ -308,8 +280,6 @@ Core.kick = (message) => {
 /**
  * kickban()
  *
- * @param client IRC instance
- * @param user Who to kickban
  * @param message Object full message
  */
 Core.kickban = (message) => {
@@ -373,9 +343,7 @@ Core.unsilence = (chan, mask ) => {
  * whois()
  *
  * @description Performs IRC Whois
- * @param client IRC instance
- * @param chan chan to respond to
- * @param target Who to identify
+ * @param message
  */
 Core.whois = ( message ) => {
   let chan = message.args[0];
@@ -401,8 +369,7 @@ Core.whois = ( message ) => {
  * nick()
  *
  * @description Changes bots nickname
- * @param client IRC instance
- * @param new_nick Who to identify
+ * @param message object
  */
 Core.nick = ( message ) => {
   let new_nick = message.args[1].split(' ')[1];
@@ -410,7 +377,11 @@ Core.nick = ( message ) => {
 }
 
 
-
+/**
+ * help()
+ *
+ * Special command that gets passed all commands from Commander, to display
+ */
 Core.help = ( message, commands ) => {
     let chan = message.args[0];
     let channelCommands = config.rules[ chan ].commands;
@@ -433,7 +404,6 @@ Core.help = ( message, commands ) => {
 /**
  * search()
  *
- * @param client IRC instance
  * @param chan Channel to reply to
  * @param message Object full message
  */
@@ -468,7 +438,6 @@ Core.search = ( message ) => {
 /**
  * getURLTitle()
  *
- * @param client IRC instance
  * @param chan Channel to reply to
  * @param message Object full message
  */
@@ -501,6 +470,12 @@ Core.getURLTitle = (message) => {
 }
 
 
+/**
+ * getPartingWords()
+ *
+ * Formats goodbye strings and/or kick messages. 
+ * @TODO Rename across the project
+ */
 let getPartingWords = ( message ) => {
   let parting_words;
   let parting_words_array = message.args[1].split(' ');

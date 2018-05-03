@@ -274,9 +274,6 @@ Cannabis.setstrain = (message) => {
   if (!chanExists) {
     Cannabis.storage[chan] = {};
   }
-  // if (!nickExists) {
-  //   Cannabis.storage[chan][nick] = {};
-  // }
 
   Cannabis.storage[chan][nick] = strain;
 

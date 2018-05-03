@@ -26,7 +26,7 @@ Custom.init = ( client ) => {
   Custom.client = client;
 
   Custom.Cannabis.init( Custom.client );
-  Custom.commands = {
+  Custom.commands = { // This is a Gatekeeper which allows/disallows commands to be run.
     "!sf": {
       desc: 'Custom.Cannabis',
       module: 'Cannabis',
@@ -53,20 +53,19 @@ Custom.init = ( client ) => {
 }
 
 
-
 // @TODO hard coded. ugly
 Custom.sf = ( message ) => {
   Custom.Cannabis.sf_search( message );
+  // Custom[ Cannabis ][sf_search]( message ); // We need to do this dynamically @TODO
 }
-
+// @TODO hard coded. ugly
 Custom.strains = ( message ) => {
   Custom.Cannabis.list_strains( message );
 }
-
+// @TODO hard coded. ugly
 Custom.setstrain = ( message ) => {
   Custom.Cannabis.setstrain( message );
 }
-
 // @TODO hard coded. ugly
 Custom.terp = ( message ) => {
   Custom.Cannabis.terp( message );
@@ -74,8 +73,6 @@ Custom.terp = ( message ) => {
 
 
 let addCommands = ( commands ) => {
-  // console.log("Adding to our current commands...", Custom.commands);
-
   for (var command in commands) {
     if (commands.hasOwnProperty( command )) {
       if (!Custom.commands.hasOwnProperty( command )) {
@@ -88,10 +85,7 @@ let addCommands = ( commands ) => {
       }
     }
   }
-
-  // console.log("We now have commands...", Custom.commands);
 }
-
 
 
 module.exports = Custom;
