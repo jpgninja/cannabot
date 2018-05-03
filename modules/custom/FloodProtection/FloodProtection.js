@@ -5,19 +5,19 @@
  * @license Private
  * @version 0.1
  */
-'use strict';
+ 'use strict';
 
-let config = require('./config.js');
-let rp = require('request-promise');
-let helpers = require('../../Helpers.js');
-let FloodProtection = function() {};
+ let config = require('./config.js');
+ let rp = require('request-promise');
+ let helpers = require('../../Helpers.js');
+ let FloodProtection = function() {};
 
 /**
  * env
  *
  * @description Global environment variable
  */
-FloodProtection.state = {
+ FloodProtection.state = {
   flooders: {}
 };
 
@@ -44,7 +44,7 @@ FloodProtection.init = ( client ) => {
  * @param user Who to increaseFloodScore
  * @param message Object full message
  */
-FloodProtection.increaseFloodScore = (chan, user) => {
+ FloodProtection.increaseFloodScore = (chan, user) => {
   let chanExists = FloodProtection.state.flooders.hasOwnProperty(chan);
   let userExists = (chanExists && FloodProtection.state.flooders[chan].hasOwnProperty(user));
 
@@ -93,7 +93,7 @@ if (config.flood_protection.active) {
  * @param user Who to decreaseFloodScore
  * @param message Object full message
  */
-FloodProtection.decreaseFloodScore = (chan, user) => {
+ FloodProtection.decreaseFloodScore = (chan, user) => {
   let chanExists = FloodProtection.state.flooders.hasOwnProperty(chan);
   let userExists = (chanExists && FloodProtection.state.flooders[chan].hasOwnProperty(user));
 
@@ -119,7 +119,7 @@ FloodProtection.decreaseFloodScore = (chan, user) => {
  * @param user Who to checkForFloods
  * @param message Object full message
  */
-FloodProtection.checkForFloods = (client, chan, user) => {
+ FloodProtection.checkForFloods = (client, chan, user) => {
   let flooders = [];
   let chanExists = FloodProtection.state.flooders.hasOwnProperty(chan);
   let userExists = (chanExists && FloodProtection.state.flooders[chan].hasOwnProperty(user));

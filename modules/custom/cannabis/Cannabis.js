@@ -5,19 +5,19 @@
  * @license Private
  * @version 0.1
  */
-'use strict';
+ 'use strict';
 
-let config = require('./config.js');
-let rp = require('request-promise');
-let helpers = require('../../Helpers.js');
-const Storage = require('../../Storage.js');
-let storage = Storage.db;
+ let config = require('./config.js');
+ let rp = require('request-promise');
+ let helpers = require('../../Helpers.js');
+ const Storage = require('../../Storage.js');
+ let storage = Storage.db;
 
-var Cannabis = function() {};
+ var Cannabis = function() {};
 
 
 
-Cannabis.init = ( client ) => {
+ Cannabis.init = ( client ) => {
   Cannabis.client = client;
 
   Cannabis.storage = {};
@@ -58,7 +58,7 @@ Cannabis.init = ( client ) => {
  *
  * @description API Details: http://en.seedfinder.eu/api/json/
  */
-Cannabis.sf_search = (message) => {
+ Cannabis.sf_search = (message) => {
   let breeder;
   let chan = message.args[0];
   let matches = [];
@@ -90,22 +90,22 @@ Cannabis.sf_search = (message) => {
   console.log("Searching SeedFinder, assuming strain is '%s' and breeder is '%s'", strain, breeder);
   console.log(url);
   rp(url)
-    .then(function(body) {
-      body = JSON.parse(body);
-      let breeder;
-      let obj;
-      let prop;
-      let results;
-      let results_array = [];
-      let search_response;
-      let strain;
+  .then(function(body) {
+    body = JSON.parse(body);
+    let breeder;
+    let obj;
+    let prop;
+    let results;
+    let results_array = [];
+    let search_response;
+    let strain;
 
-      if (body.error || !body) {
-        console.log('ERR! Seedfinder gave us back an error, or sent nothing back.');
-        return console.log(body.error);
-      }
+    if (body.error || !body) {
+      console.log('ERR! Seedfinder gave us back an error, or sent nothing back.');
+      return console.log(body.error);
+    }
 
-      console.log("Got %d results... ", body.count);
+    console.log("Got %d results... ", body.count);
 
       // Manipulate
       breeder = Cannabis.state.search.breeder;
@@ -165,7 +165,7 @@ Cannabis.sf_search = (message) => {
         return false;
       }
     })
-    .catch(function(err) {
+  .catch(function(err) {
       // Crawling failed...
       console.log('Cannabis.sf_search(): ACK! SeedFinder search failed.');
       console.log('ERR!', err);
@@ -179,7 +179,7 @@ Cannabis.sf_search = (message) => {
  *
  * @description SeedFinder.eu strain detail finder
  */
-Cannabis.sf_get_strain = ( chan ) => {
+ Cannabis.sf_get_strain = ( chan ) => {
   let url = "";
   let breeder;
   let strain;
@@ -201,7 +201,7 @@ Cannabis.sf_get_strain = ( chan ) => {
 
   // Send request
   return rp(url)
-    .then(function(body) {
+  .then(function(body) {
       // Instantiate vars
       let auto_string;
       let desc_length = 317;
@@ -235,9 +235,9 @@ Cannabis.sf_get_strain = ( chan ) => {
       match_out2 = match_out2.replace("{{URL}}", body.links.info);
       match_out3 = match_out3.replace("{{DESC}}", body.brinfo.descr.replace(/<\/?[^>]+(>|$)/g, "").substr(0, desc_length) + '...');
       results = [
-        match_out1,
-        match_out2,
-        match_out3
+      match_out1,
+      match_out2,
+      match_out3
       ];
 
       // Send messages
@@ -246,7 +246,7 @@ Cannabis.sf_get_strain = ( chan ) => {
       console.log('Cannabis.sf_get_strain(): ACK! Error fetching strain %s', match.name);
       throw err;
     });
-}
+  }
 
 
 
@@ -255,7 +255,7 @@ Cannabis.sf_get_strain = ( chan ) => {
  *
  * @description SeedFinder.eu strain detail finder
  */
-Cannabis.setstrain = (message) => {
+ Cannabis.setstrain = (message) => {
   console.log('seting strain');
   let chan = message.args[0];
   let nick = message.nick.toLowerCase();
@@ -286,7 +286,7 @@ Cannabis.setstrain = (message) => {
  *
  * @description SeedFinder.eu strain detail finder
  */
-Cannabis.list_strains = (message) => {
+ Cannabis.list_strains = (message) => {
   let chan = message.args[0];
   let nick;
   let nick_msg;
@@ -294,16 +294,16 @@ Cannabis.list_strains = (message) => {
   let total_verbs;
   let verb;
   let verbs = [
-    "blazing",
-    "chiefing",
-    "medicating with",
-    "medicated on",
-    "puffing some",
-    "smoking",
-    "smoking on",
-    "smoking on some",
-    "sparking",
-    "toking"
+  "blazing",
+  "chiefing",
+  "medicating with",
+  "medicated on",
+  "puffing some",
+  "smoking",
+  "smoking on",
+  "smoking on some",
+  "sparking",
+  "toking"
   ];
 
   total_verbs = verbs.length;

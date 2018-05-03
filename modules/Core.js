@@ -6,20 +6,20 @@
  * @version 0.1
  */
 
-let rp = require("request-promise");
-let google = require("google");
-let helpers = require("./Helpers.js");
-var Core = function() {};
+ let rp = require("request-promise");
+ let google = require("google");
+ let helpers = require("./Helpers.js");
+ var Core = function() {};
 
 
 Core.hidden_commands = [ // Unused.
-  'reconnect',
-  'quit',
-  'silence',
-  'unsilence',
-  'nick',
-  'g',
-  'getURLTitle',
+'reconnect',
+'quit',
+'silence',
+'unsilence',
+'nick',
+'g',
+'getURLTitle',
 ];
 
 
@@ -85,11 +85,11 @@ Core.init = ( client ) => {
 
 
 /**
- * reconnect()
- *
- * @param user Who to kick
- * @param message Object full message
- */
+* reconnect()
+*
+* @param user Who to kick
+* @param message Object full message
+*/
 Core.reconnect = (message) => {
   let parting_words = getPartingWords( message );
   parting_words = ((typeof  parting_words !== "undefined") &&  parting_words.length) ?  parting_words : '';
@@ -99,10 +99,10 @@ Core.reconnect = (message) => {
 }
 
 /**
- * join()
- *
- * @param chan Chan to join
- */
+* join()
+*
+* @param chan Chan to join
+*/
 Core.join = (message) => {
   let chan = message.args[1].split(' ')[1];
   Core.client.join(chan);
@@ -110,20 +110,20 @@ Core.join = (message) => {
 
 
 /**
- * part()
- *
- * @param chan Chan to part
- */
+* part()
+*
+* @param chan Chan to part
+*/
 Core.part = (message) => {
   let chan = message.args[1].split(' ')[1];
   Core.client.part(chan);
 }
 
 /**
- * quit()
- *
- * @param message Quit message
- */
+* quit()
+*
+* @param message Quit message
+*/
 Core.quit = (message) => {
   let parting_words = getPartingWords( message );
   
@@ -133,10 +133,10 @@ Core.quit = (message) => {
 }
 
 /**
- * deop()
- *
- * @param message Quit message
- */
+* deop()
+*
+* @param message Quit message
+*/
 Core.deop = (message) => {
   let chan = message.args[0];
   let nicks = message.args[1].split(' ');
@@ -148,22 +148,22 @@ Core.deop = (message) => {
 
   switch (nicks.length) {
     case 1:
-      Core.client.send('mode', chan, '-o', nicks[0]);
-      break;
+    Core.client.send('mode', chan, '-o', nicks[0]);
+    break;
     case 2:
-      Core.client.send('mode', chan, '-oo', nicks[0], nicks[1]);
-      break;
+    Core.client.send('mode', chan, '-oo', nicks[0], nicks[1]);
+    break;
     case 3:
-      Core.client.send('mode', chan, '-ooo', nicks[0], nicks[1], nicks[2]);
-      break;
+    Core.client.send('mode', chan, '-ooo', nicks[0], nicks[1], nicks[2]);
+    break;
   }
 }
 
 /**
- * op()
- *
- * @param message Quit message
- */
+* op()
+*
+* @param message Quit message
+*/
 Core.op = (message) => {
   let chan = message.args[0];
   let nicks = message.args[1].split(' ');
@@ -175,23 +175,23 @@ Core.op = (message) => {
 
   switch (nicks.length) {
     case 1:
-      Core.client.send('mode', chan, '+o', nicks[0]);
-      break;
+    Core.client.send('mode', chan, '+o', nicks[0]);
+    break;
     case 2:
-      Core.client.send('mode', chan, '+oo', nicks[0], nicks[1]);
-      break;
+    Core.client.send('mode', chan, '+oo', nicks[0], nicks[1]);
+    break;
     case 3:
-      Core.client.send('mode', chan, '+ooo', nicks[0], nicks[1], nicks[2]);
-      break;
+    Core.client.send('mode', chan, '+ooo', nicks[0], nicks[1], nicks[2]);
+    break;
   }
 }
 
 
 /**
- * devoice()
- *
- * @param message Quit message
- */
+* devoice()
+*
+* @param message Quit message
+*/
 Core.devoice = (message) => {
   let chan = message.args[0];
   let nicks = message.args[1].split(' ');
@@ -203,22 +203,22 @@ Core.devoice = (message) => {
 
   switch (nicks.length) {
     case 1:
-      Core.client.send('mode', chan, '-v', nicks[0]);
-      break;
+    Core.client.send('mode', chan, '-v', nicks[0]);
+    break;
     case 2:
-      Core.client.send('mode', chan, '-vv', nicks[0], nicks[1]);
-      break;
+    Core.client.send('mode', chan, '-vv', nicks[0], nicks[1]);
+    break;
     case 3:
-      Core.client.send('mode', chan, '-vvv', nicks[0], nicks[1], nicks[2]);
-      break;
+    Core.client.send('mode', chan, '-vvv', nicks[0], nicks[1], nicks[2]);
+    break;
   }
 }
 
 /**
- * voice()
- *
- * @param message Quit message
- */
+* voice()
+*
+* @param message Quit message
+*/
 Core.voice = (message) => {
   let chan = message.args[0];
   let nicks = message.args[1].split(' ');
@@ -230,37 +230,37 @@ Core.voice = (message) => {
 
   switch (nicks.length) {
     case 1:
-      Core.client.send('mode', chan, '+v', nicks[0]);
-      break;
+    Core.client.send('mode', chan, '+v', nicks[0]);
+    break;
     case 2:
-      Core.client.send('mode', chan, '+vv', nicks[0], nicks[1]);
-      break;
+    Core.client.send('mode', chan, '+vv', nicks[0], nicks[1]);
+    break;
     case 3:
-      Core.client.send('mode', chan, '+vvv', nicks[0], nicks[1], nicks[2]);
-      break;
+    Core.client.send('mode', chan, '+vvv', nicks[0], nicks[1], nicks[2]);
+    break;
   }
 }
 
 /**
- * die()
- *
- * @param message Quit message
- */
+* die()
+*
+* @param message Quit message
+*/
 Core.die = (message) => {
   let parting_words = getPartingWords( message );
-console.log( parting_words );
+  console.log( parting_words );
   parting_words = ((typeof parting_words !== "undefined") && parting_words.length > 0) ? parting_words : '';
-console.log( parting_words );
+  console.log( parting_words );
   Core.client.disconnect( parting_words );
   process.exitCode = 100;
   process.exit();
 }
 
 /**
- * kick()
- *
- * @param message Object full message
- */
+* kick()
+*
+* @param message Object full message
+*/
 Core.kick = (message) => {
   let chan = message.args[0];
   let parting_words = message.args[1].split(' ');
@@ -278,10 +278,10 @@ Core.kick = (message) => {
 }
 
 /**
- * kickban()
- *
- * @param message Object full message
- */
+* kickban()
+*
+* @param message Object full message
+*/
 Core.kickban = (message) => {
   let chan = message.args[0];
   let host_string;
@@ -300,8 +300,8 @@ Core.kickban = (message) => {
 
 
 /**
- * Silence
- */
+* Silence
+*/
 Core.silence = (chan, nick, duration ) => {
   let mask;
   console.log("Getting host mask for user '%s'", nick);
@@ -332,19 +332,19 @@ Core.silence = (chan, nick, duration ) => {
 }
 
 /**
- * Unsilence
- */
+* Unsilence
+*/
 Core.unsilence = (chan, mask ) => {
   // Core.state.flooders[chan][user] = 0;
   Core.client.send('mode', chan, '-q', mask);
 }
 
 /**
- * whois()
- *
- * @description Performs IRC Whois
- * @param message
- */
+* whois()
+*
+* @description Performs IRC Whois
+* @param message
+*/
 Core.whois = ( message ) => {
   let chan = message.args[0];
   let target = message.args[1].split(' ')[1];
@@ -366,11 +366,11 @@ Core.whois = ( message ) => {
 }
 
 /**
- * nick()
- *
- * @description Changes bots nickname
- * @param message object
- */
+* nick()
+*
+* @description Changes bots nickname
+* @param message object
+*/
 Core.nick = ( message ) => {
   let new_nick = message.args[1].split(' ')[1];
   Core.client.send('nick', new_nick);
@@ -378,16 +378,16 @@ Core.nick = ( message ) => {
 
 
 /**
- * help()
- *
- * Special command that gets passed all commands from Commander, to display
- */
+* help()
+*
+* Special command that gets passed all commands from Commander, to display
+*/
 Core.help = ( message, commands ) => {
-    let chan = message.args[0];
-    let channelCommands = config.rules[ chan ].commands;
+  let chan = message.args[0];
+  let channelCommands = config.rules[ chan ].commands;
 
 
-    for (var command in channelCommands) {
+  for (var command in channelCommands) {
       // console.log(Commander.commands[command]);
       console.log('%s %s', command, Commander.commands[command].desc);
 
@@ -398,15 +398,15 @@ Core.help = ( message, commands ) => {
       // }
     }
 
-}
+  }
 
 
 /**
- * search()
- *
- * @param chan Channel to reply to
- * @param message Object full message
- */
+* search()
+*
+* @param chan Channel to reply to
+* @param message Object full message
+*/
 Core.search = ( message ) => {
   let chan = message.args[0];
   let query;
@@ -421,7 +421,7 @@ Core.search = ( message ) => {
 
   google(query, (err, res) => {
     if (err) console.error(err)
-    var link = res.links[0];
+      var link = res.links[0];
 
     link.description = link.description.replace('\r', ' ');
     link.description = link.description.replace('\n', ' ');
@@ -436,11 +436,11 @@ Core.search = ( message ) => {
 }
 
 /**
- * getURLTitle()
- *
- * @param chan Channel to reply to
- * @param message Object full message
- */
+* getURLTitle()
+*
+* @param chan Channel to reply to
+* @param message Object full message
+*/
 Core.getURLTitle = (message) => {
   // let urlTest = new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?");
   let chan = message.args[0];
@@ -456,26 +456,26 @@ Core.getURLTitle = (message) => {
 
   if ( gotUrl && first_url.length ) {
     rp(first_url)
-      .then((body) => {
-        let titleTest = /<title[^>]*>[\s\S]*<\/title>/gi;
-        let title = body.match(titleTest).toString();
-        title = title.split(">")[1].split("<")[0];
-        Core.client.say(chan, "Title: " + title);
-      })
-      .catch((err) => {
-        console.log('ERR! Tried getting URLs title', err);
-        throw err;
-      });
+    .then((body) => {
+      let titleTest = /<title[^>]*>[\s\S]*<\/title>/gi;
+      let title = body.match(titleTest).toString();
+      title = title.split(">")[1].split("<")[0];
+      Core.client.say(chan, "Title: " + title);
+    })
+    .catch((err) => {
+      console.log('ERR! Tried getting URLs title', err);
+      throw err;
+    });
   }
 }
 
 
 /**
- * getPartingWords()
- *
- * Formats goodbye strings and/or kick messages. 
- * @TODO Rename across the project
- */
+* getPartingWords()
+*
+* Formats goodbye strings and/or kick messages. 
+* @TODO Rename across the project
+*/
 let getPartingWords = ( message ) => {
   let parting_words;
   let parting_words_array = message.args[1].split(' ');
