@@ -6,21 +6,8 @@
  * @version 0.1
  */
 let config = require('../config.js');
-// let config = require('../tests/test-config.js');
 var Obedience = function() {};
 
-
-/**
- * Masters and Master Channels
- *
- * MUST BE LOWERCASE!
- *
- * @description Global environment variables
- *
- */
-// Obedience.masters = ['devc'];
-// Obedience.services = ['ChanServ', 'NickServ'];
-// Obedience.channels = ['#stonedcode', '##cannabis'];
 
 
 Obedience.isService = ( user ) => {

@@ -9,7 +9,7 @@ const storage = require('./modules/Storage.js');
 const config = require('./config.js');
 
 let init = () => {
-  bot = new irc.Client('irc.freenode.net', config.persona.nick, config.persona);
+  bot = new irc.Client(config.persona.server, config.persona.nick, config.persona);
   Commander.init( bot );
   // @TODO config.json
 
@@ -58,15 +58,6 @@ let addEventListeners = () => {
     command = command.toLowerCase();
     commandIsPublicInChan = obedience.isPublicCommand( to, command );
 
-    // isValidCommand = ( isMonitoredChan && isMasterOfChan && ( isValidCommand || isValidModeCommand ) );
-
-    // if (!isMasterOfChan) {
-    //   bot.say(from, "not master." );
-    // }
-    // if (!isMonitoredChan) {
-    //   bot.say(from, "not monitored chan: "+ message.args[0]);
-    // }
-
     if (config.flood_protection.active) {
       core.increaseFloodScore(to, message.nick);
       core.checkForFloods(bot, message.args[0], message.nick);
@@ -83,47 +74,6 @@ let addEventListeners = () => {
     if ( config.preview_titles && containsURL && isMonitoredChan ) {
       Commander.fn( 'fetch_url_meta', message );
     }
-
-    // if (isValidCommand) {
-    //   // console.log("Command is '" +command+ "' and Message is:");
-    //   console.log("Command is '" +command+ "'");
-
-    //   if ( isValidPromoteCommand ) {
-    //     if (command === 'o') {
-    //       core.op( bot, to, command, message );
-    //     }
-    //     else if (command === 'v') {
-    //       core.voice( bot, to, command, message );
-    //     }
-    //   }
-    //   else if ( isValidDemoteCommand ) {
-    //     if (command === 'o') {
-    //       core.deop( bot, to, command, message );
-    //     }
-    //     if (command === 'v') {
-    //       core.devoice( bot, to, command, message );
-    //     }
-    //   }
-    //   else {
-    //     Commander.run(command, message);
-    //   }
-    // }
-    // else if ( isService ) {
-    //   console.log('Message from Service... Unhandled');
-    // }
-    // else if ( config.preview_titles && containsURL && isMonitoredChan ) {
-    //   core.getURLTitle( bot, to, text );
-    // }
-    // else if ( isMonitoredChan && !isMasterOfChan ) {
-    //   command = command.slice(1).toLowerCase();
-    //   if (command === 'g') {
-    //     Commander.run( command, message );
-    //   }
-    //   if (command === 'sf') {
-    //     // Custom.sf( bot, to, command, message );
-    //     Commander.run(command, message);
-    //   }
-    // }
 
   });
 

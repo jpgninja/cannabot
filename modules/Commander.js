@@ -49,11 +49,8 @@ Commander.run = (command, message) => {
   let chan;
   let target;
   let new_nick;
-
   let isCoreCommand = (typeof Core.commands[ command ] === 'object');
   let isCustomCommand = (typeof Custom.commands[ command ] === 'object');
-
-  // console.log( isCoreCommand, isCustomCommand );
 
   if (isCoreCommand) {
     Core[ Commander.commands[ command ].handler ]( message );

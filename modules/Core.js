@@ -518,18 +518,4 @@ let getPartingWords = ( message ) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = Core;
