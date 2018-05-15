@@ -1,17 +1,26 @@
-# A Flexible Node IRC Bot With Drop-In Custom Module Support
+# A Flexible & Extendable Node IRC Bot With Drop-In Custom Module Support
 
 This project aims to be a flexible bot with some core built-in functionality, plus the ability to drop in Custom modules and have the bot manage them just as easily.
 
 * Working with [node-irc](https://github.com/martynsmith/node-irc)
 
-Do an `npm i` and see where that gets you. You'll probably need other packages, too.
+Do an `npm i` and see where that gets you. You'll probably need other packages, too; that's just me not having a procedure in place and wanting to keep the project files as clean as possible.
 
-!help is broken but would otherwise give you commands.
+Make note of any missing projects and we'll get them in there.
+
+
+`!help` is broken but would otherwise give you commands.
 
 Of interest:
 
 * `./app.js`
-* `./modules/*.js`
+* `./config.sample.js`
+	* `Config.persona.channels` is our autojoin channels
+	* `Config.rules` is channels where we listen for commands
+	* `Config.rules` is a list of admins/masters
+	* `Config.rules.[INSERT CHAN HERE].admins` is a list of admins/masters for that chan (all commands available)
+	* `Config.rules.[INSERT CHAN HERE].commands` is a list of public commands for that chan
+* `./modules/custom/*.js` this is 90% working, with some hard-coded values in `Custom.js`... send a pull request, let's make it happen
 
 ---
 
@@ -21,10 +30,10 @@ I fixed up 80% of it and pushed. The rest is "you get the picture" until I've go
 
 Yet to test:
 
-* `!k`
-* `!kb`
+* `!k` kicks person with optional message (or `Config.messages.kick`)
+* `!kb` kick-bans person with optional message (or `Config.messages.kick`)
 * `!help` needs a rewrite since everything's coming in dynamically now. Would like this to PM all commands to admins, and respond public commands publicly to non-admins.
-* `!die` not sending message? is this the new parting words fn?
+* `!die` Should quit with optional message (or `Config.messages.quit`) _*** quit message not working, is this the new parting words fn? @TODO_
 
 
 ## Contribution requests
