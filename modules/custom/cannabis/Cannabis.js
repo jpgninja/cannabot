@@ -31,11 +31,15 @@
     },
     '!strains': {
       desc: 'See what people are smoking',
-      handler: 'strain'
+      handler: 'list_strains'
     },
-    '!setstrain': {
-      desc: '<strain> Set what strain youre smoking on',
-      handler: 'strain'
+    '!straincheck': {
+      desc: 'See what people are smoking',
+      handler: 'list_strains'
+    },
+    '!strain': {
+      desc: '[strain] Set/unset what strain youre smoking on',
+      handler: 'set_strain'
     }
   };
   Cannabis.urls = {
@@ -54,11 +58,11 @@
 }
 
 /**
- * SeedFinder.eu search
- *
- * @description API Details: http://en.seedfinder.eu/api/json/
- */
- Cannabis.sf_search = (message) => {
+* SeedFinder.eu search
+*
+* @description API Details: http://en.seedfinder.eu/api/json/
+*/
+Cannabis.sf_search = (message) => {
   let breeder;
   let chan = message.args[0];
   let matches = [];
@@ -175,11 +179,11 @@
 }
 
 /**
- * sf_get_strain()
- *
- * @description SeedFinder.eu strain detail finder
- */
- Cannabis.sf_get_strain = ( chan ) => {
+* sf_get_strain()
+*
+* @description Grabs strain details from SeedFinder.eu and parses them for output
+*/
+Cannabis.sf_get_strain = ( chan ) => {
   let url = "";
   let breeder;
   let strain;
@@ -251,42 +255,60 @@
 
 
 /**
- * setstrain()
- *
- * @description SeedFinder.eu strain detail finder
- */
- Cannabis.setstrain = (message) => {
-  console.log('seting strain');
+* set_strain()
+*
+* @description SeedFinder.eu strain detail finder
+*/
+Cannabis.set_strain = (message) => {
+  let response = "";
+  let chanExists;
+  let nickExists;
   let chan = message.args[0];
   let nick = message.nick.toLowerCase();
+  let strain = message.args[1].trim();
 
-  console.log(Cannabis.storage);
-  let strain = message.args[1].trim().split(' '); // remove the command
+  console.log('strain at 1');
   console.log(strain);
+
+  // remove the command from their message
+  strain = strain.split(' ');
   strain.shift();
-  console.log(strain);
-  strain = strain.join(' '); // remove the command
+  strain = strain.join(' ');
+
+  console.log('strain at 2');
   console.log(strain);
 
-  let chanExists = Cannabis.storage.hasOwnProperty( chan );
-  let nickExists = (chanExists) ? Cannabis.storage[chan].hasOwnProperty( chan ) : false ;
+  chanExists = Cannabis.storage.hasOwnProperty( chan );
+  nickExists = (chanExists) ? Cannabis.storage[chan].hasOwnProperty( chan ) : false ;
 
   if (!chanExists) {
     Cannabis.storage[chan] = {};
   }
 
-  Cannabis.storage[chan][nick] = strain;
+console.log('strain at 3');
+  console.log(strain);
+  console.log(typeof strain);
+console.log('strain.length at 3');
+  console.log(strain.length);
 
-  Cannabis.client.say(chan, "Got it.");
+  if (strain.length) {
+    Cannabis.storage[chan][nick] = strain;
+    response = "Got it.";
+  }
+  else {
+    delete Cannabis.storage[chan][nick];
+    response = "Good riddance.";
+  }
+  Cannabis.client.say(chan, response);
 }
 
 
 /**
- * list_strains()
- *
- * @description SeedFinder.eu strain detail finder
- */
- Cannabis.list_strains = (message) => {
+* list_strains()
+*
+* @description SeedFinder.eu strain detail finder
+*/
+Cannabis.list_strains = (message) => {
   let chan = message.args[0];
   let nick;
   let nick_msg;

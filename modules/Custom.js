@@ -35,12 +35,17 @@ Custom.init = ( client ) => {
     "!setstrain": {
       desc: 'Custom.Cannabis',
       module: 'Cannabis',
-      handler: 'setstrain'
+      handler: 'set_strain'
+    },
+    "!straincheck": {
+      desc: 'Custom.Cannabis',
+      module: 'Cannabis',
+      handler: 'list_strains'
     },
     "!strains": {
       desc: 'Custom.Cannabis',
       module: 'Cannabis',
-      handler: 'strains'
+      handler: 'list_strains'
     },
     // "!terp": {
     //   desc: 'Custom.Cannabis',
@@ -59,19 +64,19 @@ Custom.sf = ( message ) => {
   // Custom[ Cannabis ][sf_search]( message ); // We need to do this dynamically @TODO
 }
 // @TODO hard coded. ugly
-Custom.strains = ( message ) => {
+Custom.list_strains = ( message ) => {
   Custom.Cannabis.list_strains( message );
 }
 // @TODO hard coded. ugly
-Custom.setstrain = ( message ) => {
-  Custom.Cannabis.setstrain( message );
+Custom.set_strain = ( message ) => {
+  Custom.Cannabis.set_strain( message );
 }
 // @TODO hard coded. ugly
 Custom.terp = ( message ) => {
   Custom.Cannabis.terp( message );
 }
 
-
+// this gets us half there? Or maybe works? @TODO Test
 let addCommands = ( commands ) => {
   for (var command in commands) {
     if (commands.hasOwnProperty( command )) {
