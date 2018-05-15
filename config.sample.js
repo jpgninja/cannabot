@@ -40,11 +40,11 @@ let Config = {
   rules: {
     "#tesla": {
       admins: ["elon", "astroboy"],
-      commands: ['g', 'whois']
+      commands: ['!g', '!whois']
     },
     "##boring": {
       admins: ["elon"],
-      commands: ['g', 'whois']
+      commands: ['!g', '!whois']
     }
   },
   services: ['ChanServ', 'NickServ'],
